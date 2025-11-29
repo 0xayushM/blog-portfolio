@@ -1,0 +1,97 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { isAuthenticated, clearAuthToken } from '@/lib/auth';
+import ProfileEditor from '@/components/admin/ProfileEditor';
+import BooksManager from '@/components/admin/BooksManager';
+import BlogManager from '@/components/admin/BlogManager';
+
+export default function AdminDashboard() {
+  const [activeTab, setActiveTab] = useState<'profile' | 'books' | 'blog'>('profile');
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push('/admin');
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    clearAuthToken();
+    router.push('/admin');
+  };
+
+  const tabs = [
+    { id: 'profile' as const, label: 'Profile & Images', icon: '👤' },
+    { id: 'books' as const, label: 'Books', icon: '📚' },
+    { id: 'blog' as const, label: 'Blog Videos', icon: '🎥' },
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#0a0f1e]">
+      {/* Header */}
+      <header className="bg-[#1e293b] border-b border-white/10 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+              <span className="text-xl">⚙️</span>
+            </div>
+            <div>
+              <h1 className="text-xl font-bold">Admin Dashboard</h1>
+              <p className="text-sm text-gray-400">Manage your portfolio content</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              View Site →
+            </a>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-4 py-2 rounded-lg transition-colors"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Tabs */}
+      <div className="bg-[#1e293b]/50 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`px-6 py-4 font-medium transition-colors relative ${
+                  activeTab === tab.id
+                    ? 'text-blue-400'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <span className="mr-2">{tab.icon}</span>
+                {tab.label}
+                {activeTab === tab.id && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500"></div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        {activeTab === 'profile' && <ProfileEditor />}
+        {activeTab === 'books' && <BooksManager />}
+        {activeTab === 'blog' && <BlogManager />}
+      </main>
+    </div>
+  );
+}

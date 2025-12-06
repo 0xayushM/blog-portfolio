@@ -1,16 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { 
+
+// Use Vercel-compatible storage in production, file-based storage in development
+const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+const storageModule = isProduction 
+  ? require('@/lib/storage-vercel')
+  : require('@/lib/storage');
+
+const { 
   readProfile, 
   writeProfile, 
-  readBooks, 
+  readCustomBlogPosts, 
   readBlogPosts,
-  addBook,
-  updateBook,
-  deleteBook,
+  addCustomBlogPost,
+  updateCustomBlogPost,
+  deleteCustomBlogPost,
   addBlogPost,
   updateBlogPost,
   deleteBlogPost
-} from '@/lib/storage';
+} = storageModule;
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -20,20 +27,20 @@ export async function GET(request: NextRequest) {
     switch (type) {
       case 'profile':
         return NextResponse.json(readProfile());
-      case 'books':
-        return NextResponse.json(readBooks());
+      case 'customBlog':
+        return NextResponse.json(readCustomBlogPosts());
       case 'blog':
         return NextResponse.json(readBlogPosts());
       case 'all':
         return NextResponse.json({ 
           profile: readProfile(), 
-          books: readBooks(), 
+          customBlogPosts: readCustomBlogPosts(), 
           blogPosts: readBlogPosts() 
         });
       default:
         return NextResponse.json({ 
           profile: readProfile(), 
-          books: readBooks(), 
+          customBlogPosts: readCustomBlogPosts(), 
           blogPosts: readBlogPosts() 
         });
     }
@@ -55,9 +62,9 @@ export async function POST(request: NextRequest) {
         writeProfile(updatedProfile);
         return NextResponse.json({ success: true, data: updatedProfile });
       
-      case 'book':
-        const newBook = addBook(data);
-        return NextResponse.json({ success: true, data: newBook });
+      case 'customBlog':
+        const newCustomPost = addCustomBlogPost(data);
+        return NextResponse.json({ success: true, data: newCustomPost });
       
       case 'blog':
         const newPost = addBlogPost(data);
@@ -78,12 +85,12 @@ export async function PUT(request: NextRequest) {
     const { type, id, data } = body;
 
     switch (type) {
-      case 'book':
-        const updatedBook = updateBook(id, data);
-        if (updatedBook) {
-          return NextResponse.json({ success: true, data: updatedBook });
+      case 'customBlog':
+        const updatedCustomPost = updateCustomBlogPost(id, data);
+        if (updatedCustomPost) {
+          return NextResponse.json({ success: true, data: updatedCustomPost });
         }
-        return NextResponse.json({ success: false, error: 'Book not found' }, { status: 404 });
+        return NextResponse.json({ success: false, error: 'Custom blog post not found' }, { status: 404 });
       
       case 'blog':
         const updatedPost = updateBlogPost(id, data);
@@ -112,12 +119,12 @@ export async function DELETE(request: NextRequest) {
     }
 
     switch (type) {
-      case 'book':
-        const bookDeleted = deleteBook(id);
-        if (bookDeleted) {
+      case 'customBlog':
+        const customPostDeleted = deleteCustomBlogPost(id);
+        if (customPostDeleted) {
           return NextResponse.json({ success: true });
         }
-        return NextResponse.json({ success: false, error: 'Book not found' }, { status: 404 });
+        return NextResponse.json({ success: false, error: 'Custom blog post not found' }, { status: 404 });
       
       case 'blog':
         const postDeleted = deleteBlogPost(id);

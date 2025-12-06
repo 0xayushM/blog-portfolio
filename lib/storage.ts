@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { ProfileData, Book, BlogPost, defaultProfile, defaultBooks, defaultBlogPosts } from './data';
+import { ProfileData, CustomBlogPost, BlogPost, defaultProfile, defaultCustomBlogPosts, defaultBlogPosts } from './data';
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const PROFILE_FILE = path.join(DATA_DIR, 'profile.json');
-const BOOKS_FILE = path.join(DATA_DIR, 'books.json');
+const CUSTOM_BLOG_FILE = path.join(DATA_DIR, 'custom-blog.json');
 const BLOG_FILE = path.join(DATA_DIR, 'blog.json');
 
 // Ensure data directory exists
@@ -22,8 +22,8 @@ function initializeFiles() {
     fs.writeFileSync(PROFILE_FILE, JSON.stringify(defaultProfile, null, 2));
   }
 
-  if (!fs.existsSync(BOOKS_FILE)) {
-    fs.writeFileSync(BOOKS_FILE, JSON.stringify(defaultBooks, null, 2));
+  if (!fs.existsSync(CUSTOM_BLOG_FILE)) {
+    fs.writeFileSync(CUSTOM_BLOG_FILE, JSON.stringify(defaultCustomBlogPosts, null, 2));
   }
 
   if (!fs.existsSync(BLOG_FILE)) {
@@ -44,17 +44,17 @@ export function writeProfile(profile: ProfileData): void {
   fs.writeFileSync(PROFILE_FILE, JSON.stringify(profile, null, 2));
 }
 
-// Read books data
-export function readBooks(): Book[] {
+// Read custom blog posts data
+export function readCustomBlogPosts(): CustomBlogPost[] {
   initializeFiles();
-  const data = fs.readFileSync(BOOKS_FILE, 'utf-8');
+  const data = fs.readFileSync(CUSTOM_BLOG_FILE, 'utf-8');
   return JSON.parse(data);
 }
 
-// Write books data
-export function writeBooks(books: Book[]): void {
+// Write custom blog posts data
+export function writeCustomBlogPosts(posts: CustomBlogPost[]): void {
   ensureDataDir();
-  fs.writeFileSync(BOOKS_FILE, JSON.stringify(books, null, 2));
+  fs.writeFileSync(CUSTOM_BLOG_FILE, JSON.stringify(posts, null, 2));
 }
 
 // Read blog posts data
@@ -70,38 +70,38 @@ export function writeBlogPosts(posts: BlogPost[]): void {
   fs.writeFileSync(BLOG_FILE, JSON.stringify(posts, null, 2));
 }
 
-// Add a new book
-export function addBook(book: Omit<Book, 'id'>): Book {
-  const books = readBooks();
-  const newBook: Book = {
+// Add a new custom blog post
+export function addCustomBlogPost(post: Omit<CustomBlogPost, 'id'>): CustomBlogPost {
+  const posts = readCustomBlogPosts();
+  const newPost: CustomBlogPost = {
     id: Date.now().toString(),
-    ...book,
+    ...post,
   };
-  books.push(newBook);
-  writeBooks(books);
-  return newBook;
+  posts.push(newPost);
+  writeCustomBlogPosts(posts);
+  return newPost;
 }
 
-// Update a book
-export function updateBook(id: string, data: Partial<Book>): Book | null {
-  const books = readBooks();
-  const index = books.findIndex(b => b.id === id);
+// Update a custom blog post
+export function updateCustomBlogPost(id: string, data: Partial<CustomBlogPost>): CustomBlogPost | null {
+  const posts = readCustomBlogPosts();
+  const index = posts.findIndex(p => p.id === id);
   
   if (index === -1) return null;
   
-  books[index] = { ...books[index], ...data };
-  writeBooks(books);
-  return books[index];
+  posts[index] = { ...posts[index], ...data };
+  writeCustomBlogPosts(posts);
+  return posts[index];
 }
 
-// Delete a book
-export function deleteBook(id: string): boolean {
-  const books = readBooks();
-  const filteredBooks = books.filter(b => b.id !== id);
+// Delete a custom blog post
+export function deleteCustomBlogPost(id: string): boolean {
+  const posts = readCustomBlogPosts();
+  const filteredPosts = posts.filter(p => p.id !== id);
   
-  if (filteredBooks.length === books.length) return false;
+  if (filteredPosts.length === posts.length) return false;
   
-  writeBooks(filteredBooks);
+  writeCustomBlogPosts(filteredPosts);
   return true;
 }
 

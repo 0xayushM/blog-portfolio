@@ -26,8 +26,8 @@ export default function Navigation() {
         <div className="hidden md:flex gap-8">
           <a href="#home" className="hover:text-blue-400 transition-colors">Home</a>
           <a href="#about" className="hover:text-blue-400 transition-colors">About</a>
-          <a href="#books" className="hover:text-blue-400 transition-colors">Books</a>
-          <a href="#blog" className="hover:text-blue-400 transition-colors">Blog</a>
+          <a href="#custom-blog" className="hover:text-blue-400 transition-colors">Blog</a>
+          <a href="#blog" className="hover:text-blue-400 transition-colors">Videos</a>
           <a href="#contact" className="hover:text-blue-400 transition-colors">Contact</a>
         </div>
         <button className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg transition-colors">

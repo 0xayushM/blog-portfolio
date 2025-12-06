@@ -1,12 +1,16 @@
 // This file stores the portfolio data
 // In production, this would be replaced with a database
 
-export interface Book {
+export interface CustomBlogPost {
   id: string;
   title: string;
-  description: string;
-  cover: string;
-  link: string;
+  excerpt: string;
+  content: string;
+  coverImage: string;
+  author: string;
+  date: string;
+  category: string;
+  tags: string[];
 }
 
 export interface BlogPost {
@@ -24,6 +28,13 @@ export interface ProfileData {
   title: string;
   heroImage: string;
   bio: string;
+  socialLinks?: {
+    youtube?: string;
+    linkedin?: string;
+    facebook?: string;
+    twitter?: string;
+    email?: string;
+  };
 }
 
 // Default data
@@ -32,29 +43,37 @@ export const defaultProfile: ProfileData = {
   title: 'Driving Global Growth Through Strategic Sales Leadership',
   heroImage: '/profile.jpg',
   bio: 'With over 15 years of experience in steering multinational corporations toward unprecedented growth, I specialize in building high-performance sales teams and forging lasting C-level relationships.',
+  socialLinks: {
+    youtube: 'https://www.youtube.com/@SeekhoSales',
+    linkedin: 'https://www.linkedin.com/in/seekhosales',
+    facebook: 'https://www.facebook.com/SeekhoSales',
+    twitter: '',
+    email: '',
+  },
 };
 
-export const defaultBooks: Book[] = [
+export const defaultCustomBlogPosts: CustomBlogPost[] = [
   {
     id: '1',
-    title: 'The Future of Sales Leadership',
-    description: 'A comprehensive guide to modern sales strategies and team building',
-    cover: '/book1.jpg',
-    link: '#',
+    title: 'Getting Started with Modern Web Development',
+    excerpt: 'Learn the fundamentals of building modern web applications',
+    content: 'This is a comprehensive guide to modern web development...',
+    coverImage: '/blog1.jpg',
+    author: 'John Doe',
+    date: new Date().toISOString().split('T')[0],
+    category: 'Technology',
+    tags: ['Web Development', 'Tutorial'],
   },
   {
     id: '2',
-    title: 'Strategic Growth Playbook',
-    description: 'Proven frameworks for scaling enterprise sales teams',
-    cover: '/book2.jpg',
-    link: '#',
-  },
-  {
-    id: '3',
-    title: 'Global Market Expansion',
-    description: 'Navigate international markets with confidence',
-    cover: '/book3.jpg',
-    link: '#',
+    title: 'Best Practices in Team Leadership',
+    excerpt: 'Discover effective strategies for leading high-performance teams',
+    content: 'Leadership is more than just managing people...',
+    coverImage: '/blog2.jpg',
+    author: 'John Doe',
+    date: new Date().toISOString().split('T')[0],
+    category: 'Leadership',
+    tags: ['Leadership', 'Management'],
   },
 ];
 

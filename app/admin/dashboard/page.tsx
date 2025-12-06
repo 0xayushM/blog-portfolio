@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAuthenticated, clearAuthToken } from '@/lib/auth';
 import ProfileEditor from '@/components/admin/ProfileEditor';
-import BooksManager from '@/components/admin/BooksManager';
+import CustomBlogManager from '@/components/admin/CustomBlogManager';
 import BlogManager from '@/components/admin/BlogManager';
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'profile' | 'books' | 'blog'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'customBlog' | 'blog'>('profile');
   const router = useRouter();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function AdminDashboard() {
 
   const tabs = [
     { id: 'profile' as const, label: 'Profile & Images', icon: '👤' },
-    { id: 'books' as const, label: 'Books', icon: '📚' },
+    { id: 'customBlog' as const, label: 'Blog Articles', icon: '📝' },
     { id: 'blog' as const, label: 'Blog Videos', icon: '🎥' },
   ];
 
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
       {/* Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
         {activeTab === 'profile' && <ProfileEditor />}
-        {activeTab === 'books' && <BooksManager />}
+        {activeTab === 'customBlog' && <CustomBlogManager />}
         {activeTab === 'blog' && <BlogManager />}
       </main>
     </div>

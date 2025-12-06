@@ -9,6 +9,13 @@ export default function ProfileEditor() {
     title: '',
     heroImage: '',
     bio: '',
+    socialLinks: {
+      youtube: '',
+      linkedin: '',
+      facebook: '',
+      twitter: '',
+      email: '',
+    },
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -92,6 +99,67 @@ export default function ProfileEditor() {
                 rows={4}
                 className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
                 placeholder="Your professional bio..."
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-[#1e293b] rounded-xl p-6 border border-white/10">
+          <h3 className="text-lg font-semibold mb-4">Social Links</h3>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">YouTube</label>
+              <input
+                type="url"
+                value={profile.socialLinks?.youtube || ''}
+                onChange={(e) => setProfile({ ...profile, socialLinks: { ...profile.socialLinks, youtube: e.target.value } })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="https://www.youtube.com/@YourChannel"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">LinkedIn</label>
+              <input
+                type="url"
+                value={profile.socialLinks?.linkedin || ''}
+                onChange={(e) => setProfile({ ...profile, socialLinks: { ...profile.socialLinks, linkedin: e.target.value } })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="https://www.linkedin.com/in/yourprofile"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Facebook</label>
+              <input
+                type="url"
+                value={profile.socialLinks?.facebook || ''}
+                onChange={(e) => setProfile({ ...profile, socialLinks: { ...profile.socialLinks, facebook: e.target.value } })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="https://www.facebook.com/YourPage"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Twitter/X</label>
+              <input
+                type="url"
+                value={profile.socialLinks?.twitter || ''}
+                onChange={(e) => setProfile({ ...profile, socialLinks: { ...profile.socialLinks, twitter: e.target.value } })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="https://twitter.com/yourhandle"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Email</label>
+              <input
+                type="email"
+                value={profile.socialLinks?.email || ''}
+                onChange={(e) => setProfile({ ...profile, socialLinks: { ...profile.socialLinks, email: e.target.value } })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="your.email@example.com"
               />
             </div>
           </div>

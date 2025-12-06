@@ -155,9 +155,47 @@ npm run build
 npm start
 ```
 
-## Deploy
+## Deploy to Vercel
 
-Deploy easily on [Vercel](https://vercel.com):
+### Quick Deploy
+
+1. **Install Vercel CLI:**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy:**
+   ```bash
+   vercel
+   ```
+
+3. **For production:**
+   ```bash
+   vercel --prod
+   ```
+
+### Or Deploy via GitHub
+
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com)
+3. Import your repository
+4. Click Deploy
+
+### ⚠️ Important: Storage on Vercel
+
+The app automatically switches to **in-memory storage** on Vercel because the file system is read-only. This means:
+
+- ✅ Works immediately without setup
+- ❌ Data resets on each deployment
+- ❌ Not suitable for production with real users
+
+**For production**, you should use a database:
+- Vercel KV (Redis)
+- Vercel Postgres
+- MongoDB Atlas
+- Supabase
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment guide and database setup.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/blog-portfolio)
 

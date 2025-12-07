@@ -36,7 +36,60 @@ Alternatively, you can run the SQL commands directly:
 -- All tables have Row Level Security (RLS) enabled with policies for public read access
 ```
 
-## Step 3: Get Your Supabase Credentials
+## Step 3: Set Up Storage Bucket for Images
+
+1. In your Supabase project dashboard, click on **Storage** in the left sidebar
+2. Click "Create a new bucket"
+3. Fill in the bucket details:
+   - **Name**: `uploads`
+   - **Public bucket**: Toggle this ON (images need to be publicly accessible)
+4. Click "Create bucket"
+
+### Configure Storage Policies
+
+After creating the bucket, set up policies to allow uploads:
+
+1. Click on the `uploads` bucket
+2. Click on **Configuration** (or **Policies** tab)
+3. Click "New Policy" button
+4. You'll see a policy editor with options. Click on "Get started quickly" or "Create policy"
+
+**Option A: Using the Policy Templates (Recommended)**
+- Select "Allow public read access" template
+- Select "Allow public write access" template
+
+**Option B: Using Custom Policies**
+
+If you need to create custom policies, go to the **SQL Editor** instead:
+
+1. Go to **SQL Editor** in the left sidebar
+2. Click "New Query"
+3. Paste and run this SQL:
+
+```sql
+-- Policy 1: Allow public read access
+CREATE POLICY "Public Access"
+ON storage.objects FOR SELECT
+USING ( bucket_id = 'uploads' );
+
+-- Policy 2: Allow public uploads
+CREATE POLICY "Allow public uploads"
+ON storage.objects FOR INSERT
+WITH CHECK ( bucket_id = 'uploads' );
+```
+
+4. Click "Run" to execute
+
+**Alternative: Make Bucket Public (Simplest)**
+
+The easiest way is to make the bucket public when creating it:
+1. When creating the bucket, toggle **"Public bucket"** to ON
+2. This automatically sets up the necessary read policies
+3. You may still need to add the insert policy using the SQL above
+
+**Note**: For production, you should restrict upload access to authenticated users only. The current setup allows anyone to upload for simplicity.
+
+## Step 4: Get Your Supabase Credentials
 
 1. In your Supabase project dashboard, click on the **Settings** icon (gear icon) in the left sidebar
 2. Click on **API** under Project Settings
@@ -44,7 +97,7 @@ Alternatively, you can run the SQL commands directly:
    - **Project URL**: This is your `NEXT_PUBLIC_SUPABASE_URL`
    - **anon/public key**: This is your `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-## Step 4: Configure Environment Variables
+## Step 5: Configure Environment Variables
 
 ### For Local Development
 
@@ -70,7 +123,7 @@ Replace `your_supabase_project_url` and `your_supabase_anon_key` with the values
 4. Click "Save"
 5. Redeploy your application for the changes to take effect
 
-## Step 5: Verify the Setup
+## Step 6: Verify the Setup
 
 1. Start your development server:
    ```bash
@@ -89,9 +142,15 @@ Replace `your_supabase_project_url` and `your_supabase_anon_key` with the values
 
 The application uses different storage backends based on the environment:
 
-- **Production with Supabase env vars**: Uses Supabase (persistent storage)
+### Database Storage
+- **Production with Supabase env vars**: Uses Supabase database (persistent storage)
 - **Production without Supabase env vars**: Uses in-memory storage (data resets on deployment)
-- **Development**: Uses local file-based storage
+- **Development**: Uses local file-based storage (JSON files)
+
+### Image Storage
+- **Production with Supabase env vars**: Uses Supabase Storage (persistent, CDN-backed)
+- **Production without Supabase env vars**: File uploads will fail (read-only file system)
+- **Development**: Uses local file system (`/public/uploads/`)
 
 ## Security Considerations
 

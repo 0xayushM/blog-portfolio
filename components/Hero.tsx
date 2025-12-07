@@ -29,7 +29,15 @@ export default function Hero() {
             {profile.bio}
           </p>
           <div className="flex gap-4">
-            <button className="bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg transition-colors font-semibold">
+            <button 
+              onClick={() => {
+                document.getElementById('achievements')?.scrollIntoView({ 
+                  behavior: 'smooth',
+                  block: 'start'
+                });
+              }}
+              className="bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg transition-colors font-semibold"
+            >
               Explore My Impact
             </button>
           </div>

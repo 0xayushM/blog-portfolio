@@ -189,13 +189,35 @@ The app automatically switches to **in-memory storage** on Vercel because the fi
 - ❌ Data resets on each deployment
 - ❌ Not suitable for production with real users
 
-**For production**, you should use a database:
+**For production**, you should use a database. **Supabase is now configured and ready to use!**
+
+### Setting up Supabase (Recommended)
+
+This project is pre-configured to use Supabase for persistent storage. Follow these steps:
+
+1. **Create a Supabase account** at [supabase.com](https://supabase.com)
+
+2. **Create a new project** in Supabase
+
+3. **Run the database schema:**
+   - Open the SQL Editor in your Supabase dashboard
+   - Copy and paste the contents of `supabase-schema.sql`
+   - Click "Run" to create the tables
+
+4. **Add environment variables:**
+   - Copy `env.example` to `.env.local` for local development
+   - Add to Vercel environment variables for production:
+     - `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
+     - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your Supabase anon key
+
+5. **Deploy!** Your app will automatically use Supabase when these environment variables are set.
+
+See [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) for detailed setup instructions.
+
+**Other database options:**
 - Vercel KV (Redis)
 - Vercel Postgres
 - MongoDB Atlas
-- Supabase
-
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment guide and database setup.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/blog-portfolio)
 

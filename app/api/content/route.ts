@@ -1,10 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Use Vercel-compatible storage in production, file-based storage in development
+// Use Supabase storage in production, file-based storage in development
 const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
-const storageModule = isProduction 
-  ? require('@/lib/storage-vercel')
-  : require('@/lib/storage');
+const useSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+let storageModule;
+if (isProduction && useSupabase) {
+  storageModule = require('@/lib/storage-supabase');
+} else if (isProduction) {
+  storageModule = require('@/lib/storage-vercel');
+} else {
+  storageModule = require('@/lib/storage');
+}
 
 const { 
   readProfile, 
@@ -26,22 +33,22 @@ export async function GET(request: NextRequest) {
   try {
     switch (type) {
       case 'profile':
-        return NextResponse.json(readProfile());
+        return NextResponse.json(await readProfile());
       case 'customBlog':
-        return NextResponse.json(readCustomBlogPosts());
+        return NextResponse.json(await readCustomBlogPosts());
       case 'blog':
-        return NextResponse.json(readBlogPosts());
+        return NextResponse.json(await readBlogPosts());
       case 'all':
         return NextResponse.json({ 
-          profile: readProfile(), 
-          customBlogPosts: readCustomBlogPosts(), 
-          blogPosts: readBlogPosts() 
+          profile: await readProfile(), 
+          customBlogPosts: await readCustomBlogPosts(), 
+          blogPosts: await readBlogPosts() 
         });
       default:
         return NextResponse.json({ 
-          profile: readProfile(), 
-          customBlogPosts: readCustomBlogPosts(), 
-          blogPosts: readBlogPosts() 
+          profile: await readProfile(), 
+          customBlogPosts: await readCustomBlogPosts(), 
+          blogPosts: await readBlogPosts() 
         });
     }
   } catch (error) {
@@ -57,17 +64,17 @@ export async function POST(request: NextRequest) {
 
     switch (type) {
       case 'profile':
-        const currentProfile = readProfile();
+        const currentProfile = await readProfile();
         const updatedProfile = { ...currentProfile, ...data };
-        writeProfile(updatedProfile);
+        await writeProfile(updatedProfile);
         return NextResponse.json({ success: true, data: updatedProfile });
       
       case 'customBlog':
-        const newCustomPost = addCustomBlogPost(data);
+        const newCustomPost = await addCustomBlogPost(data);
         return NextResponse.json({ success: true, data: newCustomPost });
       
       case 'blog':
-        const newPost = addBlogPost(data);
+        const newPost = await addBlogPost(data);
         return NextResponse.json({ success: true, data: newPost });
       
       default:
@@ -86,14 +93,14 @@ export async function PUT(request: NextRequest) {
 
     switch (type) {
       case 'customBlog':
-        const updatedCustomPost = updateCustomBlogPost(id, data);
+        const updatedCustomPost = await updateCustomBlogPost(id, data);
         if (updatedCustomPost) {
           return NextResponse.json({ success: true, data: updatedCustomPost });
         }
         return NextResponse.json({ success: false, error: 'Custom blog post not found' }, { status: 404 });
       
       case 'blog':
-        const updatedPost = updateBlogPost(id, data);
+        const updatedPost = await updateBlogPost(id, data);
         if (updatedPost) {
           return NextResponse.json({ success: true, data: updatedPost });
         }
@@ -120,14 +127,14 @@ export async function DELETE(request: NextRequest) {
 
     switch (type) {
       case 'customBlog':
-        const customPostDeleted = deleteCustomBlogPost(id);
+        const customPostDeleted = await deleteCustomBlogPost(id);
         if (customPostDeleted) {
           return NextResponse.json({ success: true });
         }
         return NextResponse.json({ success: false, error: 'Custom blog post not found' }, { status: 404 });
       
       case 'blog':
-        const postDeleted = deleteBlogPost(id);
+        const postDeleted = await deleteBlogPost(id);
         if (postDeleted) {
           return NextResponse.json({ success: true });
         }

@@ -173,17 +173,6 @@ export default function ProfileEditor() {
             currentImage={profile.heroImage}
             onUploadComplete={(url) => setProfile({ ...profile, heroImage: url })}
           />
-
-          <div className="mt-6">
-            <label className="block text-sm font-medium mb-2">Or paste image URL</label>
-            <input
-              type="url"
-              value={profile.heroImage}
-              onChange={(e) => setProfile({ ...profile, heroImage: e.target.value })}
-              className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-              placeholder="https://example.com/image.jpg"
-            />
-          </div>
         </div>
 
         {message && (

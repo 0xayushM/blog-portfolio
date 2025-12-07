@@ -32,9 +32,6 @@ export default function Hero() {
             <button className="bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg transition-colors font-semibold">
               Explore My Impact
             </button>
-            <button className="border border-gray-600 hover:border-gray-400 px-8 py-3 rounded-lg transition-colors">
-              Download Resume
-            </button>
           </div>
         </div>
         <div className="relative">
@@ -46,6 +43,7 @@ export default function Hero() {
                   src={profile.heroImage} 
                   alt={profile.name}
                   className="w-full h-full object-cover"
+                  key={profile.heroImage}
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">

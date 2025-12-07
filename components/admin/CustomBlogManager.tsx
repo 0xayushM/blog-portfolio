@@ -200,17 +200,6 @@ export default function CustomBlogManager() {
                 currentImage={formData.coverImage}
                 onUploadComplete={(url) => setFormData({ ...formData, coverImage: url })}
               />
-              
-              <div className="mt-4">
-                <label className="block text-sm font-medium mb-2">Or paste image URL</label>
-                <input
-                  type="url"
-                  value={formData.coverImage}
-                  onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                  className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-                  placeholder="https://example.com/cover-image.jpg"
-                />
-              </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">

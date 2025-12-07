@@ -202,20 +202,9 @@ export default function BlogManager() {
                 currentImage={formData.thumbnail}
                 onUploadComplete={(url) => setFormData({ ...formData, thumbnail: url })}
               />
-              
-              <div className="mt-4">
-                <label className="block text-sm font-medium mb-2">Or paste thumbnail URL</label>
-                <input
-                  type="url"
-                  value={formData.thumbnail}
-                  onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-                  className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-                  placeholder="https://example.com/thumbnail.jpg"
-                />
-                <p className="text-sm text-gray-400 mt-2">
-                  Leave empty to use YouTube's default thumbnail
-                </p>
-              </div>
+              <p className="text-sm text-gray-400 mt-2">
+                Leave empty to use YouTube's default thumbnail
+              </p>
             </div>
 
             {formData.youtubeId && (

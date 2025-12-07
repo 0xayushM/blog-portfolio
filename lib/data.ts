@@ -63,18 +63,7 @@ export const defaultCustomBlogPosts: CustomBlogPost[] = [
     date: new Date().toISOString().split('T')[0],
     category: 'Technology',
     tags: ['Web Development', 'Tutorial'],
-  },
-  {
-    id: '2',
-    title: 'Best Practices in Team Leadership',
-    excerpt: 'Discover effective strategies for leading high-performance teams',
-    content: 'Leadership is more than just managing people...',
-    coverImage: '/blog2.jpg',
-    author: 'John Doe',
-    date: new Date().toISOString().split('T')[0],
-    category: 'Leadership',
-    tags: ['Leadership', 'Management'],
-  },
+  }
 ];
 
 export const defaultBlogPosts: BlogPost[] = [
@@ -86,32 +75,5 @@ export const defaultBlogPosts: BlogPost[] = [
     thumbnail: '/blog1.jpg',
     youtubeId: 'dQw4w9WgXcQ',
     description: 'An in-depth analysis of emerging market trends and the role of AI in sales automation.',
-  },
-  {
-    id: '2',
-    title: '5 Strategies for Scaling Enterprise Teams',
-    category: 'Team Building',
-    date: 'Oct 28, 2023',
-    thumbnail: '/blog2.jpg',
-    youtubeId: 'dQw4w9WgXcQ',
-    description: 'Learn how to build high-performing sales teams that drive consistent growth.',
-  },
-  {
-    id: '3',
-    title: 'Navigating Cross-Cultural Negotiations',
-    category: 'Leadership',
-    date: 'Oct 12, 2023',
-    thumbnail: '/blog3.jpg',
-    youtubeId: 'dQw4w9WgXcQ',
-    description: 'Master the art of international business relationships and cultural intelligence.',
-  },
-  {
-    id: '4',
-    title: 'Leveraging AI in the Sales Funnel',
-    category: 'Technology',
-    date: 'Sep 30, 2023',
-    thumbnail: '/blog4.jpg',
-    youtubeId: 'dQw4w9WgXcQ',
-    description: 'Discover how artificial intelligence is transforming the sales process.',
-  },
+  }
 ];

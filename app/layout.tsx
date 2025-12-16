@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Abhishek Upadhyay",
-  description: "Professional portfolio showcasing my work, blog articles, and insights",
+  title: "Seekho Sales – India's First Free Sales Training Platform",
+  description: "Free Sales Training by Abhishek Upadhyay. 15+ years of FMCG, Pharma & Corporate Sales experience. Real Sales | Real Experience | Real Growth.",
 };
 
 export default function RootLayout({

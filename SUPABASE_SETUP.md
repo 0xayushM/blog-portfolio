@@ -45,47 +45,45 @@ Alternatively, you can run the SQL commands directly:
    - **Public bucket**: Toggle this ON (images need to be publicly accessible)
 4. Click "Create bucket"
 
-### Configure Storage Policies
+### Configure Storage Policies (IMPORTANT!)
 
-After creating the bucket, set up policies to allow uploads:
+Since you made the bucket public, you need to add an INSERT policy. Here's the simplest way:
 
-1. Click on the `uploads` bucket
-2. Click on **Configuration** (or **Policies** tab)
-3. Click "New Policy" button
-4. You'll see a policy editor with options. Click on "Get started quickly" or "Create policy"
+**Step-by-step:**
 
-**Option A: Using the Policy Templates (Recommended)**
-- Select "Allow public read access" template
-- Select "Allow public write access" template
-
-**Option B: Using Custom Policies**
-
-If you need to create custom policies, go to the **SQL Editor** instead:
-
-1. Go to **SQL Editor** in the left sidebar
+1. Go to **SQL Editor** in the left sidebar of Supabase dashboard
 2. Click "New Query"
-3. Paste and run this SQL:
+3. Copy and paste this EXACT SQL:
 
 ```sql
--- Policy 1: Allow public read access
-CREATE POLICY "Public Access"
-ON storage.objects FOR SELECT
-USING ( bucket_id = 'uploads' );
-
--- Policy 2: Allow public uploads
-CREATE POLICY "Allow public uploads"
-ON storage.objects FOR INSERT
-WITH CHECK ( bucket_id = 'uploads' );
+-- Allow anyone to upload files to the uploads bucket
+INSERT INTO storage.policies (name, bucket_id, definition, check_expression)
+VALUES (
+  'Allow public uploads',
+  'uploads',
+  'bucket_id = ''uploads''',
+  'bucket_id = ''uploads'''
+);
 ```
 
-4. Click "Run" to execute
+4. Click "Run" (or press Cmd/Ctrl + Enter)
 
-**Alternative: Make Bucket Public (Simplest)**
+**Verify it worked:**
+- Go to **Storage** → Click on `uploads` bucket → **Policies** tab
+- You should see a policy named "Allow public uploads"
 
-The easiest way is to make the bucket public when creating it:
-1. When creating the bucket, toggle **"Public bucket"** to ON
-2. This automatically sets up the necessary read policies
-3. You may still need to add the insert policy using the SQL above
+**Alternative Method (if above doesn't work):**
+
+1. In Supabase dashboard, go to **Storage**
+2. Click on the `uploads` bucket
+3. Click **Policies** tab
+4. Click "New Policy"
+5. Select "Give users access to a folder" or "Custom policy"
+6. For INSERT operations, use this expression:
+   - Policy name: `Allow public uploads`
+   - Target roles: `public`
+   - Policy definition: `true` (allows all)
+   - Click "Review" then "Save policy"
 
 **Note**: For production, you should restrict upload access to authenticated users only. The current setup allows anyone to upload for simplicity.
 

@@ -18,7 +18,18 @@ async function ensureUploadDir() {
 
 // Upload to Supabase Storage
 async function uploadToSupabase(file: File) {
-  const { supabase } = await import('@/lib/supabase');
+  const { createClient } = await import('@supabase/supabase-js');
+  
+  // Create a Supabase client with anon key for server-side
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  
+  const supabase = createClient(supabaseUrl, supabaseKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    }
+  });
   
   // Generate unique filename
   const timestamp = Date.now();
@@ -39,7 +50,7 @@ async function uploadToSupabase(file: File) {
 
   if (error) {
     console.error('Supabase upload error:', error);
-    throw new Error('Failed to upload to Supabase Storage');
+    throw new Error(`Failed to upload to Supabase Storage: ${error.message}`);
   }
 
   // Get public URL
@@ -100,10 +111,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Upload based on environment
+    console.log('Upload environment:', { isProduction, useSupabase });
     let result;
     if (isProduction && useSupabase) {
+      console.log('Using Supabase Storage');
       result = await uploadToSupabase(file);
     } else {
+      console.log('Using local file system');
       result = await uploadToLocal(file);
     }
 
@@ -114,8 +128,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error uploading file:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to upload file';
     return NextResponse.json(
-      { success: false, error: 'Failed to upload file' },
+      { success: false, error: errorMessage },
       { status: 500 }
     );
   }

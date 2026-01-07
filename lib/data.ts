@@ -41,13 +41,13 @@ export interface ProfileData {
 export const defaultProfile: ProfileData = {
   name: 'John Doe',
   title: 'Driving Global Growth Through Strategic Sales Leadership',
-  heroImage: '/profile.jpg',
+  heroImage: '/hero_image.jpeg',
   bio: 'With over 15 years of experience in steering multinational corporations toward unprecedented growth, I specialize in building high-performance sales teams and forging lasting C-level relationships.',
   socialLinks: {
-    youtube: 'https://www.youtube.com/@SeekhoSales',
+    youtube: 'https://www.youtube.com/@seekhosales',
     linkedin: 'https://www.linkedin.com/in/seekhosales',
     facebook: 'https://www.facebook.com/SeekhoSales',
-    twitter: '',
+    twitter: 'https://x.com/Seekhosales1',
     email: '',
   },
 };

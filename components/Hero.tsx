@@ -1,15 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ProfileData } from '@/lib/data';
+import { ProfileData, defaultProfile } from '@/lib/data';
 
 export default function Hero() {
-  const [profile, setProfile] = useState<ProfileData>({
-    name: 'Abhishek Upadhyay',
-    title: 'Seekho Sales – India\'s First Free Sales Training Platform',
-    heroImage: '',
-    bio: 'Real Sales | Real Experience | Real Growth\n15+ years of field experience – now FREE for everyone.',
-  });
+  const [profile, setProfile] = useState<ProfileData>(defaultProfile);
 
   useEffect(() => {
     fetch('/api/content?type=profile')
@@ -33,12 +28,14 @@ export default function Hero() {
             {profile.title}
           </h1>
           <div className="space-y-2">
-            <p className="text-xl md:text-2xl text-blue-400 font-semibold">
-              Real Sales | Real Experience | Real Growth
-            </p>
-            <p className="text-lg text-gray-300">
-              {profile.bio}
-            </p>
+            {profile.bio && profile.bio.split('\n').map((line, index) => (
+              <p 
+                key={index} 
+                className={index === 0 ? "text-xl md:text-2xl text-blue-400 font-semibold" : "text-lg text-gray-300"}
+              >
+                {line}
+              </p>
+            ))}
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <a 

@@ -59,14 +59,14 @@ export default function ProfileEditor() {
 
   return (
     <div className="max-w-3xl">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-2">Profile & Images</h2>
-        <p className="text-gray-400">Update your profile information and images</p>
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-bold mb-2">Profile & Images</h2>
+        <p className="text-sm sm:text-base text-gray-400">Update your profile information and images</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-[#1e293b] rounded-xl p-6 border border-white/10">
-          <h3 className="text-lg font-semibold mb-4">Basic Information</h3>
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+        <div className="bg-[#1e293b] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
+          <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Basic Information</h3>
           
           <div className="space-y-4">
             <div>
@@ -106,8 +106,8 @@ export default function ProfileEditor() {
           </div>
         </div>
 
-        <div className="bg-[#1e293b] rounded-xl p-6 border border-white/10">
-          <h3 className="text-lg font-semibold mb-4">Social Links</h3>
+        <div className="bg-[#1e293b] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
+          <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Social Links</h3>
           
           <div className="space-y-4">
             <div>
@@ -178,8 +178,8 @@ export default function ProfileEditor() {
           </div>
         </div>
 
-        <div className="bg-[#1e293b] rounded-xl p-6 border border-white/10">
-          <h3 className="text-lg font-semibold mb-4">Profile Image</h3>
+        <div className="bg-[#1e293b] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
+          <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Profile Image</h3>
           
           <div className="space-y-4">
             <div>
@@ -221,18 +221,18 @@ export default function ProfileEditor() {
           </div>
         )}
 
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 px-6 py-3 rounded-lg font-semibold transition-colors w-full sm:w-auto"
           >
             {loading ? 'Saving...' : 'Save Changes'}
           </button>
           <button
             type="button"
             onClick={fetchProfile}
-            className="border border-white/10 hover:border-white/20 px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="border border-white/10 hover:border-white/20 px-6 py-3 rounded-lg font-semibold transition-colors w-full sm:w-auto"
           >
             Reset
           </button>

@@ -1,15 +1,25 @@
 'use client';
-import {ProfileData} from '@/lib/data'
-import { useState } from 'react';
+import {ProfileData, defaultProfile} from '@/lib/data'
+import { useState, useEffect } from 'react';
 
 export default function Navigation() {
+  const [profile, setProfile] = useState<ProfileData>(defaultProfile);
 
-  const [profile, setProfile] = useState<ProfileData>({
-      name: 'Abhishek Upadhyay',
-      title: 'Seekho Sales – India\'s First Free Sales Training Platform',
-      heroImage: '',
-      bio: 'Real Sales | Real Experience | Real Growth\n15+ years of field experience – now FREE for everyone.',
-    });
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('/api/content?type=profile');
+        if (response.ok) {
+          const data = await response.json();
+          setProfile(data);
+        }
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);

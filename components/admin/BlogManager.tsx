@@ -113,14 +113,14 @@ export default function BlogManager() {
 
   return (
     <div>
-      <div className="mb-8 flex justify-between items-center">
+      <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold mb-2">Blog Videos Management</h2>
-          <p className="text-gray-400">Add, edit, or remove YouTube video content</p>
+          <h2 className="text-xl sm:text-2xl font-bold mb-2">Blog Videos Management</h2>
+          <p className="text-sm sm:text-base text-gray-400">Add, edit, or remove YouTube video content</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition-colors"
+          className="bg-blue-500 hover:bg-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base whitespace-nowrap w-full sm:w-auto"
         >
           {showForm ? 'Cancel' : '+ Add Video'}
         </button>
@@ -137,11 +137,11 @@ export default function BlogManager() {
       )}
 
       {showForm && (
-        <div className="mb-8 bg-[#1e293b] rounded-xl p-6 border border-white/10">
-          <h3 className="text-lg font-semibold mb-4">
+        <div className="mb-6 sm:mb-8 bg-[#1e293b] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
+          <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
             {editingPost ? 'Edit Video' : 'Add New Video'}
           </h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">Title</label>
               <input
@@ -235,17 +235,17 @@ export default function BlogManager() {
               </div>
             )}
 
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg font-semibold transition-colors"
+                className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-semibold transition-colors w-full sm:w-auto"
               >
                 {editingPost ? 'Update Video' : 'Add Video'}
               </button>
               <button
                 type="button"
                 onClick={resetForm}
-                className="border border-white/10 hover:border-white/20 px-6 py-2 rounded-lg font-semibold transition-colors"
+                className="border border-white/10 hover:border-white/20 px-6 py-3 rounded-lg font-semibold transition-colors w-full sm:w-auto"
               >
                 Cancel
               </button>
@@ -254,35 +254,40 @@ export default function BlogManager() {
         </div>
       )}
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         {posts.map((post) => (
-          <div key={post.id} className="bg-[#1e293b] rounded-xl overflow-hidden border border-white/10">
-            <div className="relative aspect-video bg-gradient-to-br from-teal-600 to-blue-600">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
-                  <div className="w-0 h-0 border-l-[12px] border-l-white border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent ml-1"></div>
-                </div>
-              </div>
-              <div className="absolute top-4 left-4">
-                <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
+          <div key={post.id} className="bg-[#1e293b] rounded-lg sm:rounded-xl overflow-hidden border border-white/10">
+            <div className="aspect-video bg-gradient-to-br from-red-600 to-pink-600 flex items-center justify-center overflow-hidden">
+              {post.thumbnail ? (
+                <img src={post.thumbnail} alt={post.title} className="w-full h-full object-cover" />
+              ) : (
+                <iframe
+                  src={`https://www.youtube.com/embed/${post.youtubeId}`}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              )}
+            </div>
+            <div className="p-4 sm:p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="bg-red-500/20 text-red-400 px-2 py-1 rounded text-xs">
                   {post.category}
                 </span>
+                <span className="text-xs text-gray-500">{post.date}</span>
               </div>
-            </div>
-            <div className="p-4">
-              <h3 className="font-semibold mb-2 line-clamp-1">{post.title}</h3>
-              <p className="text-sm text-gray-400 mb-2 line-clamp-2">{post.description}</p>
-              <p className="text-xs text-gray-500 mb-4">{post.date}</p>
+              <h3 className="text-lg sm:text-xl font-bold mb-2 line-clamp-2">{post.title}</h3>
+              <p className="text-gray-400 text-sm mb-4 line-clamp-3">{post.description}</p>
               <div className="flex gap-2">
                 <button
                   onClick={() => handleEdit(post)}
-                  className="flex-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 px-4 py-2 rounded-lg text-sm transition-colors"
+                  className="flex-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(post.id)}
-                  className="flex-1 bg-red-500/20 hover:bg-red-500/30 text-red-400 px-4 py-2 rounded-lg text-sm transition-colors"
+                  className="flex-1 bg-red-500/20 hover:bg-red-500/30 text-red-400 px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base"
                 >
                   Delete
                 </button>

@@ -63,7 +63,14 @@ export async function readProfile(): Promise<ProfileData> {
       return defaultProfile;
     }
 
-    return data as ProfileData;
+    // Convert snake_case from DB to camelCase for app
+    return {
+      name: data.name,
+      title: data.title,
+      heroImage: data.hero_image,
+      bio: data.bio,
+      socialLinks: data.social_links
+    } as ProfileData;
   } catch (error) {
     console.error('Error reading profile:', error);
     return defaultProfile;
@@ -73,6 +80,15 @@ export async function readProfile(): Promise<ProfileData> {
 // Write profile data
 export async function writeProfile(profile: ProfileData): Promise<void> {
   try {
+    // Convert camelCase from app to snake_case for DB
+    const dbProfile = {
+      name: profile.name,
+      title: profile.title,
+      hero_image: profile.heroImage,
+      bio: profile.bio,
+      social_links: profile.socialLinks
+    };
+
     // First, check if a profile exists
     const { data: existingProfile } = await supabase
       .from('profile')
@@ -84,7 +100,7 @@ export async function writeProfile(profile: ProfileData): Promise<void> {
       // Update existing profile
       const { error } = await supabase
         .from('profile')
-        .update(profile)
+        .update(dbProfile)
         .eq('name', existingProfile.name);
 
       if (error) throw error;
@@ -92,7 +108,7 @@ export async function writeProfile(profile: ProfileData): Promise<void> {
       // Insert new profile
       const { error } = await supabase
         .from('profile')
-        .insert([profile]);
+        .insert([dbProfile]);
 
       if (error) throw error;
     }
@@ -116,7 +132,18 @@ export async function readCustomBlogPosts(): Promise<CustomBlogPost[]> {
       return defaultCustomBlogPosts;
     }
 
-    return (data || []) as CustomBlogPost[];
+    // Convert snake_case from DB to camelCase for app
+    return (data || []).map(post => ({
+      id: post.id,
+      title: post.title,
+      excerpt: post.excerpt,
+      content: post.content,
+      coverImage: post.cover_image,
+      author: post.author,
+      date: post.date,
+      category: post.category,
+      tags: post.tags || []
+    })) as CustomBlogPost[];
   } catch (error) {
     console.error('Error reading custom blog posts:', error);
     return defaultCustomBlogPosts;
@@ -157,7 +184,16 @@ export async function readBlogPosts(): Promise<BlogPost[]> {
       return defaultBlogPosts;
     }
 
-    return (data || []) as BlogPost[];
+    // Convert snake_case from DB to camelCase for app
+    return (data || []).map(post => ({
+      id: post.id,
+      title: post.title,
+      category: post.category,
+      date: post.date,
+      thumbnail: post.thumbnail,
+      youtubeId: post.youtube_id,
+      description: post.description
+    })) as BlogPost[];
   } catch (error) {
     console.error('Error reading blog posts:', error);
     return defaultBlogPosts;
@@ -186,9 +222,16 @@ export async function writeBlogPosts(posts: BlogPost[]): Promise<void> {
 
 // Add a new custom blog post
 export async function addCustomBlogPost(post: Omit<CustomBlogPost, 'id'>): Promise<CustomBlogPost> {
-  const newPost: CustomBlogPost = {
+  const newPost = {
     id: Date.now().toString(),
-    ...post,
+    title: post.title,
+    excerpt: post.excerpt,
+    content: post.content,
+    cover_image: post.coverImage,
+    author: post.author,
+    date: post.date,
+    category: post.category,
+    tags: post.tags || []
   };
 
   try {
@@ -200,7 +243,18 @@ export async function addCustomBlogPost(post: Omit<CustomBlogPost, 'id'>): Promi
 
     if (error) throw error;
 
-    return data as CustomBlogPost;
+    // Convert back to camelCase
+    return {
+      id: data.id,
+      title: data.title,
+      excerpt: data.excerpt,
+      content: data.content,
+      coverImage: data.cover_image,
+      author: data.author,
+      date: data.date,
+      category: data.category,
+      tags: data.tags || []
+    } as CustomBlogPost;
   } catch (error) {
     console.error('Error adding custom blog post:', error);
     throw error;
@@ -210,16 +264,38 @@ export async function addCustomBlogPost(post: Omit<CustomBlogPost, 'id'>): Promi
 // Update a custom blog post
 export async function updateCustomBlogPost(id: string, updateData: Partial<CustomBlogPost>): Promise<CustomBlogPost | null> {
   try {
+    // Convert camelCase to snake_case
+    const dbUpdateData: any = {};
+    if (updateData.title !== undefined) dbUpdateData.title = updateData.title;
+    if (updateData.excerpt !== undefined) dbUpdateData.excerpt = updateData.excerpt;
+    if (updateData.content !== undefined) dbUpdateData.content = updateData.content;
+    if (updateData.coverImage !== undefined) dbUpdateData.cover_image = updateData.coverImage;
+    if (updateData.author !== undefined) dbUpdateData.author = updateData.author;
+    if (updateData.date !== undefined) dbUpdateData.date = updateData.date;
+    if (updateData.category !== undefined) dbUpdateData.category = updateData.category;
+    if (updateData.tags !== undefined) dbUpdateData.tags = updateData.tags;
+
     const { data, error } = await supabase
       .from('custom_blog_posts')
-      .update(updateData)
+      .update(dbUpdateData)
       .eq('id', id)
       .select()
       .single();
 
     if (error) throw error;
 
-    return data as CustomBlogPost;
+    // Convert back to camelCase
+    return {
+      id: data.id,
+      title: data.title,
+      excerpt: data.excerpt,
+      content: data.content,
+      coverImage: data.cover_image,
+      author: data.author,
+      date: data.date,
+      category: data.category,
+      tags: data.tags || []
+    } as CustomBlogPost;
   } catch (error) {
     console.error('Error updating custom blog post:', error);
     return null;
@@ -245,14 +321,18 @@ export async function deleteCustomBlogPost(id: string): Promise<boolean> {
 
 // Add a new blog post
 export async function addBlogPost(post: Omit<BlogPost, 'id' | 'date'>): Promise<BlogPost> {
-  const newPost: BlogPost = {
+  const newPost = {
     id: Date.now().toString(),
     date: new Date().toLocaleDateString('en-US', { 
       year: 'numeric', 
       month: 'short', 
       day: 'numeric' 
     }),
-    ...post,
+    title: post.title,
+    category: post.category,
+    youtube_id: post.youtubeId,
+    description: post.description,
+    thumbnail: post.thumbnail
   };
 
   try {
@@ -264,7 +344,16 @@ export async function addBlogPost(post: Omit<BlogPost, 'id' | 'date'>): Promise<
 
     if (error) throw error;
 
-    return data as BlogPost;
+    // Convert back to camelCase
+    return {
+      id: data.id,
+      title: data.title,
+      category: data.category,
+      date: data.date,
+      thumbnail: data.thumbnail,
+      youtubeId: data.youtube_id,
+      description: data.description
+    } as BlogPost;
   } catch (error) {
     console.error('Error adding blog post:', error);
     throw error;
@@ -274,16 +363,34 @@ export async function addBlogPost(post: Omit<BlogPost, 'id' | 'date'>): Promise<
 // Update a blog post
 export async function updateBlogPost(id: string, updateData: Partial<BlogPost>): Promise<BlogPost | null> {
   try {
+    // Convert camelCase to snake_case
+    const dbUpdateData: any = {};
+    if (updateData.title !== undefined) dbUpdateData.title = updateData.title;
+    if (updateData.category !== undefined) dbUpdateData.category = updateData.category;
+    if (updateData.date !== undefined) dbUpdateData.date = updateData.date;
+    if (updateData.thumbnail !== undefined) dbUpdateData.thumbnail = updateData.thumbnail;
+    if (updateData.youtubeId !== undefined) dbUpdateData.youtube_id = updateData.youtubeId;
+    if (updateData.description !== undefined) dbUpdateData.description = updateData.description;
+
     const { data, error } = await supabase
       .from('blog_posts')
-      .update(updateData)
+      .update(dbUpdateData)
       .eq('id', id)
       .select()
       .single();
 
     if (error) throw error;
 
-    return data as BlogPost;
+    // Convert back to camelCase
+    return {
+      id: data.id,
+      title: data.title,
+      category: data.category,
+      date: data.date,
+      thumbnail: data.thumbnail,
+      youtubeId: data.youtube_id,
+      description: data.description
+    } as BlogPost;
   } catch (error) {
     console.error('Error updating blog post:', error);
     return null;

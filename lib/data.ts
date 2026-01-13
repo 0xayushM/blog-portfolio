@@ -40,7 +40,7 @@ export interface ProfileData {
 
 // Default data
 export const defaultProfile: ProfileData = {
-  name: 'John Doe',
+  name: 'Abhishek Upadhyay',
   title: 'Driving Global Growth Through Strategic Sales Leadership',
   heroImage: '/hero_image.jpeg',
   bio: 'With over 15 years of experience in steering multinational corporations toward unprecedented growth, I specialize in building high-performance sales teams and forging lasting C-level relationships.',
@@ -54,28 +54,6 @@ export const defaultProfile: ProfileData = {
   },
 };
 
-export const defaultCustomBlogPosts: CustomBlogPost[] = [
-  {
-    id: '1',
-    title: 'Getting Started with Modern Web Development',
-    excerpt: 'Learn the fundamentals of building modern web applications',
-    content: 'This is a comprehensive guide to modern web development...',
-    coverImage: '/blog1.jpg',
-    author: 'John Doe',
-    date: new Date().toISOString().split('T')[0],
-    category: 'Technology',
-    tags: ['Web Development', 'Tutorial'],
-  }
-];
+export const defaultCustomBlogPosts: CustomBlogPost[] = [];
 
-export const defaultBlogPosts: BlogPost[] = [
-  {
-    id: '1',
-    title: 'The Future of Global Sales: A 2024 Outlook',
-    category: 'Sales Strategy',
-    date: 'Nov 15, 2023',
-    thumbnail: '/blog1.jpg',
-    youtubeId: 'dQw4w9WgXcQ',
-    description: 'An in-depth analysis of emerging market trends and the role of AI in sales automation.',
-  }
-];
+export const defaultBlogPosts: BlogPost[] = [];

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ImageUpload from './ImageUpload';
 
 export default function ProfileEditor() {
   const [profile, setProfile] = useState({
@@ -182,11 +181,34 @@ export default function ProfileEditor() {
         <div className="bg-[#1e293b] rounded-xl p-6 border border-white/10">
           <h3 className="text-lg font-semibold mb-4">Profile Image</h3>
           
-          <ImageUpload
-            label="Upload Profile Image"
-            currentImage={profile.heroImage}
-            onUploadComplete={(url) => setProfile({ ...profile, heroImage: url })}
-          />
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Hero Image URL</label>
+              <input
+                type="url"
+                value={profile.heroImage}
+                onChange={(e) => setProfile({ ...profile, heroImage: e.target.value })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="https://drive.google.com/... or direct image URL"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Paste a Google Drive link, Imgur link, or direct image URL
+              </p>
+            </div>
+            
+            {profile.heroImage && (
+              <div className="relative w-full h-64 rounded-lg overflow-hidden border border-white/10">
+                <img 
+                  src={profile.heroImage} 
+                  alt="Preview" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23334155" width="100" height="100"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="14"%3EInvalid URL%3C/text%3E%3C/svg%3E';
+                  }}
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         {message && (

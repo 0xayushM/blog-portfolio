@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { BlogPost } from '@/lib/data';
-import ImageUpload from './ImageUpload';
 
 export default function BlogManager() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -197,14 +196,29 @@ export default function BlogManager() {
             </div>
 
             <div>
-              <ImageUpload
-                label="Upload Custom Thumbnail (Optional)"
-                currentImage={formData.thumbnail}
-                onUploadComplete={(url) => setFormData({ ...formData, thumbnail: url })}
+              <label className="block text-sm font-medium mb-2">Custom Thumbnail URL (Optional)</label>
+              <input
+                type="url"
+                value={formData.thumbnail}
+                onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="https://drive.google.com/... or direct image URL"
               />
-              <p className="text-sm text-gray-400 mt-2">
-                Leave empty to use YouTube's default thumbnail
+              <p className="text-xs text-gray-500 mt-1">
+                Leave empty to use YouTube's default thumbnail. Or paste a Google Drive link, Imgur link, or direct image URL
               </p>
+              {formData.thumbnail && (
+                <div className="mt-3 relative w-full h-48 rounded-lg overflow-hidden border border-white/10">
+                  <img 
+                    src={formData.thumbnail} 
+                    alt="Preview" 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23334155" width="100" height="100"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="14"%3EInvalid URL%3C/text%3E%3C/svg%3E';
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             {formData.youtubeId && (

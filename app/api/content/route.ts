@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Use Supabase storage in production, file-based storage in development
-const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
+// Use Supabase storage when environment variables are present
 const useSupabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL === '1';
 
 let storageModule;
-if (isProduction && useSupabase) {
+if (useSupabase) {
+  // Use Supabase if credentials are available (works in both dev and production)
   storageModule = require('@/lib/storage-supabase');
 } else if (isProduction) {
+  // Fallback to in-memory storage in production without Supabase
   storageModule = require('@/lib/storage-vercel');
 } else {
+  // Use local file storage in development without Supabase
   storageModule = require('@/lib/storage');
 }
 

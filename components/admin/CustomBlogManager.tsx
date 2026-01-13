@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { CustomBlogPost } from '@/lib/data';
-import ImageUpload from './ImageUpload';
 
 export default function CustomBlogManager() {
   const [posts, setPosts] = useState<CustomBlogPost[]>([]);
@@ -195,11 +194,29 @@ export default function CustomBlogManager() {
             </div>
 
             <div>
-              <ImageUpload
-                label="Upload Cover Image"
-                currentImage={formData.coverImage}
-                onUploadComplete={(url) => setFormData({ ...formData, coverImage: url })}
+              <label className="block text-sm font-medium mb-2">Cover Image URL</label>
+              <input
+                type="url"
+                value={formData.coverImage}
+                onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="https://drive.google.com/... or direct image URL"
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Paste a Google Drive link, Imgur link, or direct image URL
+              </p>
+              {formData.coverImage && (
+                <div className="mt-3 relative w-full h-48 rounded-lg overflow-hidden border border-white/10">
+                  <img 
+                    src={formData.coverImage} 
+                    alt="Preview" 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23334155" width="100" height="100"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="14"%3EInvalid URL%3C/text%3E%3C/svg%3E';
+                    }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">

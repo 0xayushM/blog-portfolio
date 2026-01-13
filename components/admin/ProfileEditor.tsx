@@ -14,6 +14,7 @@ export default function ProfileEditor() {
       linkedin: '',
       facebook: '',
       twitter: '',
+      instagram: '',
       email: '',
     },
   });
@@ -149,6 +150,17 @@ export default function ProfileEditor() {
                 onChange={(e) => setProfile({ ...profile, socialLinks: { ...profile.socialLinks, twitter: e.target.value } })}
                 className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
                 placeholder="https://twitter.com/yourhandle"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Instagram</label>
+              <input
+                type="url"
+                value={profile.socialLinks?.instagram || ''}
+                onChange={(e) => setProfile({ ...profile, socialLinks: { ...profile.socialLinks, instagram: e.target.value } })}
+                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="https://www.instagram.com/yourhandle"
               />
             </div>
 

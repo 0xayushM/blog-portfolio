@@ -33,6 +33,7 @@ export interface ProfileData {
     linkedin?: string;
     facebook?: string;
     twitter?: string;
+    instagram?: string;
     email?: string;
   };
 }
@@ -46,8 +47,9 @@ export const defaultProfile: ProfileData = {
   socialLinks: {
     youtube: 'https://www.youtube.com/@seekhosales',
     linkedin: 'https://www.linkedin.com/in/seekhosales',
-    facebook: 'https://www.facebook.com/SeekhoSales',
+    facebook: 'https://www.facebook.com/seekhosaleswithabhishek',
     twitter: 'https://x.com/Seekhosales1',
+    instagram: 'https://www.instagram.com/seekhosales',
     email: '',
   },
 };

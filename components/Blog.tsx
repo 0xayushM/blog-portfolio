@@ -47,11 +47,31 @@ export default function Blog() {
 
         {/* Blog Grid */}
         <div className="grid md:grid-cols-2 gap-8">
-          {filteredPosts.map((post, index) => (
-            <div key={index} className="group cursor-pointer">
+          {filteredPosts.map((post) => (
+            <a 
+              key={post.id} 
+              href={`/video/${post.id}`}
+              className="group cursor-pointer block"
+            >
               <div className="bg-[#1e293b]/50 rounded-xl overflow-hidden border border-white/10 hover:border-blue-500/50 transition-all duration-300">
                 <div className="relative aspect-video bg-gradient-to-br from-teal-600 to-blue-600">
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  {post.thumbnail ? (
+                    <img 
+                      src={post.thumbnail} 
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <img 
+                      src={`https://img.youtube.com/vi/${post.youtubeId}/maxresdefault.jpg`}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.src = `https://img.youtube.com/vi/${post.youtubeId}/hqdefault.jpg`;
+                      }}
+                    />
+                  )}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                     <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                       <div className="w-0 h-0 border-l-[12px] border-l-white border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent ml-1"></div>
                     </div>
@@ -69,13 +89,13 @@ export default function Blog() {
                   <p className="text-gray-400 mb-4">{post.description}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-500">{post.date}</span>
-                    <button className="text-blue-400 hover:text-blue-300 font-semibold">
+                    <span className="text-blue-400 group-hover:text-blue-300 font-semibold">
                       Watch Now →
-                    </button>
+                    </span>
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

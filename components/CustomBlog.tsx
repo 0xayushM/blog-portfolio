@@ -50,7 +50,11 @@ export default function CustomBlog() {
         {/* Blog Grid */}
         <div className="grid md:grid-cols-3 gap-8">
           {filteredPosts.map((post) => (
-            <div key={post.id} className="group cursor-pointer">
+            <a 
+              key={post.id} 
+              href={`/blog/${post.id}`}
+              className="group cursor-pointer block"
+            >
               <div className="bg-[#1e293b]/50 rounded-xl overflow-hidden border border-white/10 hover:border-blue-500/50 transition-all duration-300 hover:transform hover:scale-105">
                 <div className="aspect-[16/9] bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center overflow-hidden">
                   {post.coverImage ? (
@@ -76,9 +80,9 @@ export default function CustomBlog() {
                   <p className="text-gray-400 mb-3 line-clamp-3">{post.excerpt}</p>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-500">{post.author}</span>
-                    <button className="text-blue-400 hover:text-blue-300 font-semibold flex items-center gap-2">
+                    <span className="text-blue-400 group-hover:text-blue-300 font-semibold flex items-center gap-2">
                       Read More →
-                    </button>
+                    </span>
                   </div>
                   {post.tags && post.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-4">
@@ -91,7 +95,7 @@ export default function CustomBlog() {
                   )}
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 

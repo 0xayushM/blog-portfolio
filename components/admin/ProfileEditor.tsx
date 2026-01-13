@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import HybridImageInput from './HybridImageInput';
 
 export default function ProfileEditor() {
   const [profile, setProfile] = useState({
@@ -181,34 +182,12 @@ export default function ProfileEditor() {
         <div className="bg-[#1e293b] rounded-lg sm:rounded-xl p-4 sm:p-6 border border-white/10">
           <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Profile Image</h3>
           
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Hero Image URL</label>
-              <input
-                type="text"
-                value={profile.heroImage}
-                onChange={(e) => setProfile({ ...profile, heroImage: e.target.value })}
-                className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-                placeholder="Image URL or path (e.g., /hero_image.jpeg or https://...)"
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                Paste a Google Drive link, Imgur link, or direct image URL
-              </p>
-            </div>
-            
-            {profile.heroImage && (
-              <div className="relative w-full h-64 rounded-lg overflow-hidden border border-white/10">
-                <img 
-                  src={profile.heroImage} 
-                  alt="Preview" 
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23334155" width="100" height="100"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-size="14"%3EInvalid URL%3C/text%3E%3C/svg%3E';
-                  }}
-                />
-              </div>
-            )}
-          </div>
+          <HybridImageInput
+            label="Hero Image"
+            currentImage={profile.heroImage}
+            onImageChange={(url) => setProfile({ ...profile, heroImage: url })}
+            placeholder="Image URL or path (e.g., /hero_image.jpeg or https://...)"
+          />
         </div>
 
         {message && (

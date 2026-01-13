@@ -40,7 +40,7 @@ export interface ProfileData {
 
 // Default data
 export const defaultProfile: ProfileData = {
-  name: 'Abhishek Upadhyay',
+  name: 'Seekho Sales',
   title: 'Driving Global Growth Through Strategic Sales Leadership',
   heroImage: '/hero_image.jpeg',
   bio: 'With over 15 years of experience in steering multinational corporations toward unprecedented growth, I specialize in building high-performance sales teams and forging lasting C-level relationships.',

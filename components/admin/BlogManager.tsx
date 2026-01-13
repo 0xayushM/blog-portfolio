@@ -198,11 +198,11 @@ export default function BlogManager() {
             <div>
               <label className="block text-sm font-medium mb-2">Custom Thumbnail URL (Optional)</label>
               <input
-                type="url"
+                type="text"
                 value={formData.thumbnail}
                 onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
                 className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-                placeholder="https://drive.google.com/... or direct image URL"
+                placeholder="Image URL or path (e.g., /image.jpg or https://...)"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Leave empty to use YouTube's default thumbnail. Or paste a Google Drive link, Imgur link, or direct image URL

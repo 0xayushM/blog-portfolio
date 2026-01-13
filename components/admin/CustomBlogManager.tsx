@@ -196,11 +196,11 @@ export default function CustomBlogManager() {
             <div>
               <label className="block text-sm font-medium mb-2">Cover Image URL</label>
               <input
-                type="url"
+                type="text"
                 value={formData.coverImage}
                 onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
                 className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-                placeholder="https://drive.google.com/... or direct image URL"
+                placeholder="Image URL or path (e.g., /image.jpg or https://...)"
               />
               <p className="text-xs text-gray-500 mt-1">
                 Paste a Google Drive link, Imgur link, or direct image URL

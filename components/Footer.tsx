@@ -1,4 +1,13 @@
+'use client';
+
 export default function Footer() {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <footer className="py-8 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6">
@@ -8,10 +17,10 @@ export default function Footer() {
             <p className="text-gray-400 text-sm">India's First Free Sales Training Platform</p>
           </div>
           <div className="flex gap-6">
-            <a href="#home" className="text-gray-400 hover:text-red-400 transition-colors">Home</a>
-            <a href="#about" className="text-gray-400 hover:text-red-400 transition-colors">About</a>
-            <a href="#courses" className="text-gray-400 hover:text-red-400 transition-colors">Courses</a>
-            <a href="#youtube" className="text-gray-400 hover:text-red-400 transition-colors">YouTube</a>
+            <button onClick={() => scrollToSection('home')} className="text-gray-400 hover:text-red-400 transition-colors">Home</button>
+            <button onClick={() => scrollToSection('about')} className="text-gray-400 hover:text-red-400 transition-colors">About</button>
+            <button onClick={() => scrollToSection('courses')} className="text-gray-400 hover:text-red-400 transition-colors">Courses</button>
+            <button onClick={() => scrollToSection('youtube')} className="text-gray-400 hover:text-red-400 transition-colors">YouTube</button>
           </div>
         </div>
         <div className="mt-6 pt-6 border-t border-white/5 text-center">

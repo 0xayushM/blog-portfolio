@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { BlogPost } from '@/lib/data';
 import Link from 'next/link';
 
-export default function VideoDetailPage({ params }: { params: { id: string } }) {
+export default function VideoDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function VideoDetailPage({ params }: { params: { id: string } }) 
       try {
         const response = await fetch('/api/content?type=blog');
         const posts: BlogPost[] = await response.json();
-        const foundPost = posts.find(p => p.id === params.id);
+        const foundPost = posts.find(p => p.id === resolvedParams.id);
         
         if (foundPost) {
           setPost(foundPost);
@@ -42,7 +43,7 @@ export default function VideoDetailPage({ params }: { params: { id: string } }) 
     };
 
     fetchPost();
-  }, [params.id, router]);
+  }, [resolvedParams.id, router]);
 
   if (loading) {
     return (
@@ -65,7 +66,7 @@ export default function VideoDetailPage({ params }: { params: { id: string } }) 
       <nav className="bg-[#1e293b] border-b border-white/10 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-4">
           <Link 
-            href="/#blog"
+            href="/"
             className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-colors"
           >
             ← Back to Videos
@@ -130,7 +131,7 @@ export default function VideoDetailPage({ params }: { params: { id: string } }) 
         {/* Back to Videos Link */}
         <div className="mt-12 pt-8 border-t border-white/10 text-center">
           <Link 
-            href="/#blog"
+            href="/"
             className="inline-block bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg transition-colors font-semibold"
           >
             ← Back to All Videos

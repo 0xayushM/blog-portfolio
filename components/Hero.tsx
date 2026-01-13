@@ -18,6 +18,13 @@ export default function Hero() {
       .catch(err => console.error('Error loading profile:', err));
   }, []);
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <section id="home" className="min-h-screen flex items-center pt-20">
       <div className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
@@ -30,7 +37,7 @@ export default function Hero() {
               Real Sales | Real Experience | Real Growth
             </p>
             <p className="text-lg text-gray-300">
-              15+ years of field experience – now FREE for everyone.
+              {profile.bio}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
@@ -42,12 +49,12 @@ export default function Hero() {
             >
               <span>🔴</span> Watch Free Training on YouTube
             </a>
-            <a 
-              href="#contact"
+            <button 
+              onClick={() => scrollToSection('contact')}
               className="bg-green-600 hover:bg-green-700 px-8 py-3 rounded-lg transition-colors font-semibold text-center flex items-center justify-center gap-2"
             >
               <span>🟢</span> Join Sales Community
-            </a>
+            </button>
           </div>
         </div>
         <div className="relative">

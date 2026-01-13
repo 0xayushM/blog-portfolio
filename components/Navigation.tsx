@@ -1,6 +1,23 @@
 'use client';
+import {ProfileData} from '@/lib/data'
+import { useState } from 'react';
 
 export default function Navigation() {
+
+  const [profile, setProfile] = useState<ProfileData>({
+      name: 'Abhishek Upadhyay',
+      title: 'Seekho Sales – India\'s First Free Sales Training Platform',
+      heroImage: '',
+      bio: 'Real Sales | Real Experience | Real Growth\n15+ years of field experience – now FREE for everyone.',
+    });
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <nav className="fixed top-0 w-full bg-[#0a0f1e]/90 backdrop-blur-md z-50 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -8,14 +25,14 @@ export default function Navigation() {
           <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-xl">S</span>
           </div>
-          <span className="text-xl font-semibold">Seekho Sales</span>
+          <span className="text-xl font-semibold">{profile.name}</span>
         </div>
         <div className="hidden md:flex gap-8">
-          <a href="#home" className="hover:text-red-400 transition-colors">Home</a>
-          <a href="#about" className="hover:text-red-400 transition-colors">About</a>
-          <a href="#courses" className="hover:text-red-400 transition-colors">Courses</a>
-          <a href="#youtube" className="hover:text-red-400 transition-colors">YouTube</a>
-          <a href="#contact" className="hover:text-red-400 transition-colors">Contact</a>
+          <button onClick={() => scrollToSection('home')} className="hover:text-red-400 transition-colors">Home</button>
+          <button onClick={() => scrollToSection('about')} className="hover:text-red-400 transition-colors">About</button>
+          <button onClick={() => scrollToSection('courses')} className="hover:text-red-400 transition-colors">Courses</button>
+          <button onClick={() => scrollToSection('youtube')} className="hover:text-red-400 transition-colors">YouTube</button>
+          <button onClick={() => scrollToSection('contact')} className="hover:text-red-400 transition-colors">Contact</button>
         </div>
         <a 
           href="https://www.youtube.com/@seekhosales"

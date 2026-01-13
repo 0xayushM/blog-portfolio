@@ -77,30 +77,32 @@ export default function ProfileEditor() {
                 value={profile.name}
                 onChange={(e) => setProfile({ ...profile, name: e.target.value })}
                 className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-                placeholder="John Doe"
+                placeholder="Abhishek Upadhyay"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Title/Headline</label>
+              <label className="block text-sm font-medium mb-2">Main Title (Large Heading)</label>
               <input
                 type="text"
                 value={profile.title}
                 onChange={(e) => setProfile({ ...profile, title: e.target.value })}
                 className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-                placeholder="Driving Global Growth Through Strategic Sales Leadership"
+                placeholder="Seekho Sales – India's First Free Sales Training Platform"
               />
+              <p className="text-xs text-gray-500 mt-1">This appears as the main heading in the hero section</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Bio</label>
+              <label className="block text-sm font-medium mb-2">Subtitle & Description</label>
               <textarea
                 value={profile.bio}
                 onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
                 rows={4}
                 className="w-full px-4 py-2 bg-[#0a0f1e] border border-white/10 rounded-lg focus:outline-none focus:border-blue-500"
-                placeholder="Your professional bio..."
+                placeholder="Real Sales | Real Experience | Real Growth&#10;15+ years of field experience – now FREE for everyone."
               />
+              <p className="text-xs text-gray-500 mt-1">First line appears in blue, second line in gray. Use line breaks to separate.</p>
             </div>
           </div>
         </div>

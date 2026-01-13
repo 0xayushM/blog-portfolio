@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { CustomBlogPost } from '@/lib/data';
 import Link from 'next/link';
 
-export default function BlogDetailPage({ params }: { params: { id: string } }) {
+export default function BlogDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
   const [post, setPost] = useState<CustomBlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
       try {
         const response = await fetch('/api/content?type=customBlog');
         const posts: CustomBlogPost[] = await response.json();
-        const foundPost = posts.find(p => p.id === params.id);
+        const foundPost = posts.find(p => p.id === resolvedParams.id);
         
         if (foundPost) {
           setPost(foundPost);
@@ -42,7 +43,7 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
     };
 
     fetchPost();
-  }, [params.id, router]);
+  }, [resolvedParams.id, router]);
 
   if (loading) {
     return (
@@ -65,7 +66,7 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
       <nav className="bg-[#1e293b] border-b border-white/10 sticky top-0 z-50">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <Link 
-            href="/#custom-blog"
+            href="/"
             className="text-blue-400 hover:text-blue-300 flex items-center gap-2 transition-colors"
           >
             ← Back to Blog
@@ -143,7 +144,7 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
         {/* Back to Blog Link */}
         <div className="mt-12 pt-8 border-t border-white/10 text-center">
           <Link 
-            href="/#custom-blog"
+            href="/"
             className="inline-block bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg transition-colors font-semibold"
           >
             ← Back to All Articles

@@ -1,9 +1,11 @@
 'use client';
 import {ProfileData, defaultProfile} from '@/lib/data'
 import { useState, useEffect } from 'react';
+import { useRequestInfo } from '@/components/RequestInfoProvider';
 
 export default function Navigation() {
   const [profile, setProfile] = useState<ProfileData>(defaultProfile);
+  const { open } = useRequestInfo();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -43,6 +45,7 @@ export default function Navigation() {
           <button onClick={() => scrollToSection('courses')} className="hover:text-red-400 transition-colors">Courses</button>
           <button onClick={() => scrollToSection('youtube')} className="hover:text-red-400 transition-colors">YouTube</button>
           <button onClick={() => scrollToSection('contact')} className="hover:text-red-400 transition-colors">Contact</button>
+          <button onClick={open} className="hover:text-red-400 transition-colors">Get In Touch</button>
         </div>
         <a 
           href="https://www.youtube.com/@seekhosales"

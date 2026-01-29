@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { ProfileData } from '@/lib/data';
+import { useRequestInfo } from '@/components/RequestInfoProvider';
 
 export default function Contact() {
   const [profile, setProfile] = useState<ProfileData | null>(null);
+  const { open } = useRequestInfo();
 
   useEffect(() => {
     fetch('/api/content?type=profile')
@@ -101,12 +103,12 @@ export default function Contact() {
           )}
         </div>
         {socialLinks.email && (
-          <a 
-            href={`mailto:${socialLinks.email}`}
+          <button 
+            onClick={open}
             className="inline-block bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg transition-colors font-semibold text-lg"
           >
             Get In Touch
-          </a>
+          </button>
         )}
       </div>
     </section>

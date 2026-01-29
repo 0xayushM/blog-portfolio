@@ -9,21 +9,24 @@ import CustomBlog from '@/components/CustomBlog';
 import Blog from '@/components/Blog';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import RequestInfoProvider from '@/components/RequestInfoProvider';
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <Navigation />
-      <Hero />
-      <Achievements />
-      <About />
-      <Courses />
-      <WhyFree />
-      <YouTube />
-      <CustomBlog />
-      <Blog />
-      <Contact />
-      <Footer />
-    </div>
+    <RequestInfoProvider>
+      <div className="min-h-screen">
+        <Navigation />
+        <Hero />
+        <Achievements />
+        <About />
+        <Courses />
+        <WhyFree />
+        <YouTube />
+        <CustomBlog />
+        <Blog />
+        <Contact />
+        <Footer />
+      </div>
+    </RequestInfoProvider>
   );
 }

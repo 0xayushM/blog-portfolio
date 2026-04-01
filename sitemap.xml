@@ -1,0 +1,20 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://www.seekhosales.com</loc>
+<lastmod>2026-04-01T11:16:27.991Z</lastmod>
+<changefreq>daily</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://www.seekhosales.com/admin</loc>
+<lastmod>2026-04-01T11:16:27.991Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+<url>
+<loc>https://www.seekhosales.com/admin/dashboard</loc>
+<lastmod>2026-04-01T11:16:27.991Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.5</priority>
+</url>
+</urlset>
